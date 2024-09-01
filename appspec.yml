@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/swiggy/Swiggy-Clone-App-eks-argocd/
+
+hooks:
+  AfterInstall:
+    - location: scripts/script.sh
+      timeout: 300
+      runas: root
