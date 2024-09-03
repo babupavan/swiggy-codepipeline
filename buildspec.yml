@@ -25,6 +25,6 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: base_dir
-  name: build-artifact-name
+  base-directory: '.'  # This should be the directory where your build artifacts are located
+  name: swiggy-build-artifact
   discard-paths: no
