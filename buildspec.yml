@@ -29,3 +29,4 @@ artifacts:
   base-directory: '.'  # This should be the directory where your build artifacts are located
   name: swiggy-build-artifact
   discard-paths: no
+  
