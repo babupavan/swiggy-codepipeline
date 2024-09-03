@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  variables:  # Define environment variables here
+  variables:
     NODE_ENV: production
     APP_ENV: production
   parameter-store:
@@ -12,7 +12,7 @@ env:
 phases:
   install:
     runtime-versions:
-      nodejs: 22  # Set the Node.js version to 22.7.0
+      nodejs: 22
   pre_build:
     commands:
       - echo "Installing dependencies..."
@@ -20,14 +20,10 @@ phases:
   build:
     commands:
       - echo "Building Docker image..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
+      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login $DOCKER_REGISTRY_URL -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
       - docker build -t gpavankmarreddy/swiggy:latest .
-      - docker push gpavankmarreddy/swiggy:latest
+      - docker images  # List images to verify build success
+      - docker push --verbose gpavankmarreddy/swiggy:latest
   post_build:
     commands:
       - echo "Build completed successfully!"
-
-artifacts:
-  files:
-    - '**/*'  # Includes all files in the current directory and subdirectories
-  base-directory: .  # Use the current directory as the base directory
