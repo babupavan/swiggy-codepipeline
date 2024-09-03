@@ -19,6 +19,7 @@ phases:
       - docker build -t swiggy-pavan .
       - docker tag swiggy-pavan:latest public.ecr.aws/m5n9g3g9/swiggy-pavan:latest
       - docker push public.ecr.aws/m5n9g3g9/swiggy-pavan:latest
+      - printf '[{"name":"swiggy","imageUri":"public.ecr.aws/m5n9g3g9/swiggy-pavan:latest"}]' > imagedefinitions.json
   post_build:
     commands:
       - echo "Build completed successfully!"
