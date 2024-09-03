@@ -4,11 +4,6 @@ env:
   variables:
     NODE_ENV: production
     APP_ENV: production
-  parameter-store:
-    DOCKER_REGISTRY_USERNAME: /myapp/docker-credentials/username
-    DOCKER_REGISTRY_PASSWORD: /myapp/docker-credentials/password
-    DOCKER_REGISTRY_URL: /myapp/docker-registry/url
-
 phases:
   install:
     runtime-versions:
@@ -20,10 +15,10 @@ phases:
   build:
     commands:
       - echo "Building Docker image..."
-      - echo "$DOCKER_REGISTRY_PASSWORD" | docker login $DOCKER_REGISTRY_URL -u "$DOCKER_REGISTRY_USERNAME" --password-stdin
-      - docker build -t gpavankmarreddy/swiggy:latest .
-      - docker images  # List images to verify build success
-      - docker push --verbose gpavankmarreddy/swiggy:latest
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/m5n9g3g9
+      - docker build -t swiggy-pavan .
+      - docker tag swiggy-pavan:latest public.ecr.aws/m5n9g3g9/swiggy-pavan:latest
+      - docker push public.ecr.aws/m5n9g3g9/swiggy-pavan:latest
   post_build:
     commands:
       - echo "Build completed successfully!"
